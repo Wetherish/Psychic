@@ -32,6 +32,14 @@ const server = serve({
       },
     },
 
+    "/dataSets": {
+      async GET() {
+        return Response.json({
+          message: "List of data sets",
+        });
+      },
+    },
+
   },
 
   development: process.env.NODE_ENV !== "production" && {
