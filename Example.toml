@@ -1,0 +1,19 @@
+[Servers]
+
+[Servers.A]
+url = "a.com"
+
+[Servers.B]
+url = "b.com"
+
+
+[Commands]
+
+[Commands.Upload]
+Commands = ["echo", "uploading..."]
+
+[Commands.Submit]
+Commands = ["echo", "submiting..."]
+
+[Commands.ListDataSets]
+Commands = ["echo", "listing data sets..."]
