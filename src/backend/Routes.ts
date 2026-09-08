@@ -1,9 +1,8 @@
 import { commandMap } from "../backend/FetchConfig";
-import { config } from 'process';
 
-
-export async function ListDataSets() {
+export async function ListDataSets(path: string) {
   const command = commandMap.get('ListDataSets');
+  command?.push(path);
 
   if (!command) {
     throw new Error("command not found");

@@ -1,14 +1,22 @@
 import { serve } from "bun";
 import index from "./index.html";
-import { commandMap } from "./backend/FetchConfig";
 import { ListDataSets } from "./backend/Routes";
 
+const dataSetsRoute = "/dataSets";
+const jobs = "/jobs";
+const jobsId = "/jobs/:id"
+const jobsOutput = "/jobs/:id/output";
+
+
+function getDataSetPath(request: Request): string {
+  return new URL(request.url).pathname.slice(dataSetsRoute.length) || "/";
+}
 
 const server = serve({
   routes: {
     "/*": index,
 
-    "/jobs": {
+    [jobs]: {
       async GET() {
         return Response.json({
           message: "List of jobs",
@@ -16,7 +24,7 @@ const server = serve({
       },
     },
 
-    "/jobs/:id": {
+    [jobsId]: {
       async GET(req) {
         const id = req.params.id;
         return Response.json({
@@ -25,7 +33,7 @@ const server = serve({
       },
     },
 
-    "/jobs/:id/output": {
+    [jobsOutput]: {
       async GET(req) {
         const id = req.params.id;
         return Response.json({
@@ -34,11 +42,21 @@ const server = serve({
       },
     },
 
-    "/dataSets": {
-      async GET() {
-        return Response.json({
-          message: await ListDataSets(),
-        });
+    [`${dataSetsRoute}/*`]: {
+      async GET(req) {
+        const path = getDataSetPath(req);
+        try {
+          const response = await ListDataSets(path);
+          return Response.json ({
+            message: response
+          });
+        } catch (error) {
+          return Response.json ({
+            error: error
+          }, {
+            status: 500
+          });
+        }
       },
     },
   },
