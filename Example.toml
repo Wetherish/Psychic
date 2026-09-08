@@ -16,4 +16,4 @@ Commands = ["echo", "uploading..."]
 Commands = ["echo", "submiting..."]
 
 [Commands.ListDataSets]
-Commands = ["echo", "listing data sets..."]
+Commands = ["ls"]
